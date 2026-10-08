@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        blockquote {
+            font-size: 1.5rem;
+            color: #444;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .refresh-btn {
+            margin-top: 25px;
+            padding: 10px 20px;
+            border: none;
+            background: #4f46e5;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .refresh-btn:hover {
+            background: #4338ca;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Random Quote</h1>
+        <blockquote>“{{ quote }}”</blockquote>
+        <button class="refresh-btn" onclick="window.location.reload();">Refresh Quote</button>
+    </div>
+</body>
+</html>
