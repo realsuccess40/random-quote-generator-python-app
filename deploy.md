@@ -1,19 +1,19 @@
 # Deploy to an EC2 server
 
-This guide deploys the Flask quote generator to an Ubuntu EC2 instance and serves it at `pathon.successlink.com.ng` using Gunicorn, Nginx, and HTTPS.
+This guide deploys the Flask quote generator to an Ubuntu EC2 instance and serves it at `pythonapp.successlink.com.ng` using Gunicorn, Nginx, and HTTPS.
 
 ## 1. Configure EC2 and DNS
 
-1. In the EC2 console, confirm the instance is running Ubuntu 22.04 or 24.04 and note its public IP. The deployment target provided for this app is `34.200.213.243`.
+1. In the EC2 console, confirm the instance is running Ubuntu 22.04 or 24.04 and note its public IP. The deployment target provided for this app is `100.56.242.237`.
 2. For a stable DNS target, associate an Elastic IP with the instance. A normal EC2 public IP can change when the instance is stopped and started.
 3. In the instance's security group, allow inbound:
    - SSH (TCP 22) only from your own IP address.
    - HTTP (TCP 80) from `0.0.0.0/0` and `::/0`.
    - HTTPS (TCP 443) from `0.0.0.0/0` and `::/0`.
-4. In the DNS zone for `successlink.com.ng`, add an A record for `pathon` pointing to `34.200.213.243` (or the associated Elastic IP). Wait for DNS to propagate. From a machine with `dig`, check with:
+4. In the DNS zone for `successlink.com.ng`, add an A record for `pythonapp` pointing to `100.56.242.237` (or the associated Elastic IP). Wait for DNS to propagate. From a machine with `dig`, check with:
 
    ```bash
-   dig +short pathon.successlink.com.ng
+   dig +short pythonapp.successlink.com.ng
    ```
 
    It should return the instance's public/Elastic IP.
@@ -23,7 +23,7 @@ This guide deploys the Flask quote generator to an Ubuntu EC2 instance and serve
 From your local machine, connect using the EC2 key pair and the Ubuntu account. Replace the key path with the path to your `.pem` file:
 
 ```bash
-ssh -i /path/to/key.pem ubuntu@34.200.213.243
+ssh -i /path/to/key.pem ubuntu@100.56.242.237
 ```
 
 On the instance:
@@ -88,7 +88,7 @@ sudo tee /etc/nginx/sites-available/quote-app > /dev/null <<'EOF'
 server {
     listen 80;
     listen [::]:80;
-    server_name pathon.successlink.com.ng;
+    server_name pythonapp.successlink.com.ng;
 
     location / {
         proxy_pass http://127.0.0.1:8000;
@@ -113,7 +113,7 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-At this point, test `http://pathon.successlink.com.ng` in a browser.
+At this point, test `http://pythonapp.successlink.com.ng` in a browser.
 
 ## 6. Enable HTTPS
 
@@ -121,7 +121,7 @@ After DNS resolves to the instance and inbound TCP 80/443 are allowed, install C
 
 ```bash
 sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d pathon.successlink.com.ng
+sudo certbot --nginx -d pythonapp.successlink.com.ng
 ```
 
 Follow the prompts and choose the option to redirect HTTP traffic to HTTPS. Test automatic renewal:
@@ -130,7 +130,7 @@ Follow the prompts and choose the option to redirect HTTP traffic to HTTPS. Test
 sudo certbot renew --dry-run
 ```
 
-The application should now be available at `https://pathon.successlink.com.ng`.
+The application should now be available at `https://pythonapp.successlink.com.ng`.
 
 ## Updating the application
 
